@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.utraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+<body>
+    <div  layout:fragment="content">
+        <div class="card text-center w-50 my-4 mx-auto">
+            <div class="card-header">
+                UpdateEvent
+            </div>
+            <div class="card-body">
+                <form th:action="@{/events/saveUpdates}"
+                      method="post"
+                      th:object="${eventUpdate}"
+                      enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:field="*{eventId}" th:value="${eventUpdate.eventId}">
+                    <div class="d-flex gap-3">
+                        <div class="mb-3 flex-fill">
+                            <label for="event-title" class="form-label">Event Title</label>
+                            <input type="text" class="form-control" id="event-title"
+                                th:field="*{title}" th:value="${eventUpdate.title}">
+                        </div>
+                        <div class="mb-3 flex-fill">
+                            <label for="event-description" class="form-label">Event Description</label>
+                            <input type="text" class="form-control" id="event-description"
+                            th:field="*{description}" th:value="${eventUpdate.description}">
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3 ">
+                        <div class="mb-3 flex-fill">
+                            <label for="event-country" class="form-label">Country</label>
+                            <input type="text" class="form-control" id="event-country"
+                            th:field="*{country}" th:value="${eventUpdate.country}">
+                        </div>
+                        <div class="mb-3 flex-fill">
+                            <label for="event-city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="event-city"
+                            th:field="*{city}" th:value="${eventUpdate.city}">
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3">
+                        <div class="mb-3 flex-fill">
+                            <label for="event-address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="event-address"
+                            th:field="*{address}" th:value="${eventUpdate.address}">
+                        </div>
+                        <div class="mb-3 flex-fill">
+                            <label for="event-tickets" class="form-label">Tickets Number</label>
+                            <input type="number" class="form-control" id="event-tickets"
+                            th:field="*{ticketNumber}" th:value="${eventUpdate.ticketNumber}">
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3">
+                        <div class="mb-3 flex-fill">
+                            <label for="event-start-date" class="form-label">Address</label>
+                            <input type="datetime-local" class="form-control" id="event-start-date"
+                             th:field="*{startDate}" th:value="${eventUpdate.startDate}">
+                        </div>
+                        <div class="mb-3 flex-fill">
+                            <label for="event-end-date" class="form-label">Tickets Number</label>
+                            <input type="datetime-local" class="form-control" id="event-end-date"
+                            th:field="*{endDate}" th:value="${eventUpdate.endDate}">
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3 mb-3 flex-fill">
+                        <div class="card" style="width: 18rem;">
+                            <img id="previewImg" th:if="${eventUpdate.eventImage != null and !eventUpdate.eventImage.isEmpty()}"
+                                 th:src="'/uploads/'+${eventUpdate.eventImage}"
+                                 class="card-img-top" alt="image">
+                            <div class="card-body">
+                                <label for="event-image" class="form-label">Event Cover</label>
+                                <input name="file" type="file" class="form-control" id="event-image"
+                                       th:value="${eventUpdate.eventImage}">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

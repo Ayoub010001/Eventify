@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.utraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="m-auto w-50"  layout:fragment="content">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Event Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Country</th>
+                <th scope="col">City</th>
+                <th scope="col">Address</th>
+                <th scope="col">Image</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="event:${events}">
+                <th scope="row" th:text="${event.eventId}"></th>
+                <td th:text="${event.title}"></td>
+                <td th:text="${event.description}"></td>
+                <td th:text="${event.country}"></td>
+                <td th:text="${event.city}"></td>
+                <td th:text="${event.address}"></td>
+                <td><img
+                        th:if="${event.eventImage!= null and !event.eventImage.isEmpty()}"
+                        th:src="'/uploads/'+${event.eventImage}" width="90">
+                    <p th:unless="${event.eventImage != null and !event.eventImage.isEmpty()}">
+                        No image found
+                    </p>
+                </td>
+                <td><a th:href="@{/event(eventId=${event.eventId})}" class="btn btn-outline-primary">
+                    More info
+                </a></td>
+                <td><a th:href="@{/events/update(eventId=${event.eventId})}" class="btn btn-outline-success">
+                    update
+                </a></td>
+                <td><a th:href="@{/events/delete(eventId=${event.eventId})}" class="btn btn-outline-danger">
+                    delete
+                </a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.utraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Event</title>
+</head>
+<body>
+    <section layout:fragment="content" class="d-flex m-5">
+        <div class="card" style="width: 18rem;">
+            <img th:src="'/uploads/'+${event.eventImage}" class="card-img-top" alt="eventImage">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${event.title}"></h5>
+                <p class="card-text" th:text="${event.description}"></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:text="${event.country}+', '+${event.city}+', '+${event.address}"></li>
+                <li class="list-group-item" th:text="'Start Date : '+${event.startDate}"></li>
+                <li class="list-group-item" th:text="'End Date : '+${event.endDate}"></li>
+            </ul>
+            <div class="card-body">
+                <a class="btn btn-outline-danger">❤ Like</a>
+                <a class="btn btn-outline-info">📩 Save</a>
+                <a th:href="@{/events}" class="card-link">See All events</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
