@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.utraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Saves list</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Event</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Start at</th>
+                    <th scope="col">End at</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="event:${events}">
+                    <th scope="row" th:text="${event.title}"></th>
+                    <td th:text="${event.country}+', '+${event.city}+', '+${event.address}"></td>
+                    <td ><span class="badge text-bg-info" th:text="${event.startDate}"></span></td>
+                    <td ><span class="badge text-bg-info" th:text="${event.endDate}"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

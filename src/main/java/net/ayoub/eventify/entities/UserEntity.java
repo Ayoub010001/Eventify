@@ -21,16 +21,24 @@ public class UserEntity {
     private String email;
 
     //Comment
-    @OneToMany(mappedBy = "userCommented")
+    @OneToMany(mappedBy = "userCommented", cascade = CascadeType.ALL)
     private Collection<Comment> comments = new ArrayList<>();
 
     //Likes
     @ManyToMany
-    @JoinTable(name = "likes")
+    @JoinTable(name = "likes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+            //,uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "event_id"})
+    )
     private Collection<Event> liked = new ArrayList<>();
 
     //Saves
     @ManyToMany
-    @JoinTable(name = "saved")
+    @JoinTable(name = "saved",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+            //,uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "event_id"})
+    )
     private Collection<Event> saved = new ArrayList<>();
 }

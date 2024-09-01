@@ -21,8 +21,12 @@
                 <li class="list-group-item" th:text="'End Date : '+${event.endDate}"></li>
             </ul>
             <div class="card-body">
-                <a class="btn btn-outline-danger">❤ Like</a>
-                <a class="btn btn-outline-info">📩 Save</a>
+                <a th:href="@{/events/like(eventId=${event.eventId})}"
+                    th:class="${isLiked}? 'btn btn-danger' : 'btn btn-outline-danger'">❤ Like
+                    <span th:text="${event.getLiked().size()}"></span></a>
+                <a th:href="@{/events/saves(eventId=${event.eventId})}"
+                   th:class="${isSaved}? 'btn btn-success' : 'btn btn-outline-success'">📩 Save</a>
+                <br>
                 <a th:href="@{/events}" class="card-link">See All events</a>
             </div>
         </div>

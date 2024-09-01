@@ -1,6 +1,7 @@
 package net.ayoub.eventify.web;
 
 import net.ayoub.eventify.entities.Event;
+import net.ayoub.eventify.entities.UserEntity;
 import net.ayoub.eventify.repositories.EventRepository;
 import net.ayoub.eventify.repositories.UserRepository;
 import org.springframework.http.MediaType;
@@ -25,9 +26,11 @@ import java.util.UUID;
 public class EventController {
     private final String UPLOAD_DIR = "src/main/resources/uploads";
     private final EventRepository eventRepository;
+    private final UserRepository userRepository;
 
-    public EventController(EventRepository eventRepository) {
+    public EventController(EventRepository eventRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
+        this.userRepository = userRepository;
     }
 
     //index path
@@ -44,9 +47,16 @@ public class EventController {
     }
 
     @GetMapping("/event")
-    public String event(Model model, @RequestParam("eventId") Long eventId){
+    public String event(Model model, @RequestParam("eventId") Long eventId,
+                        @RequestParam(value = "userId", defaultValue = "1") Long userId){
         Event event = eventRepository.findById(eventId).orElse(null);
+        UserEntity user = userRepository.findById(userId).orElse(null);
+
+        boolean isLiked = event.getLiked() != null && event.getLiked().contains(user);
+        boolean isSaved = event.getSaved() != null && event.getSaved().contains(user);
         model.addAttribute("event", event);
+        model.addAttribute("isLiked", isLiked);
+        model.addAttribute("isSaved", isSaved);
         return "event";
     }
 
@@ -162,5 +172,60 @@ public class EventController {
         return "redirect:/events";
     }
 
+    @GetMapping("/events/like")
+    public String likeEvent(@RequestParam("eventId") Long eventId,
+                            @RequestParam(value = "userId", defaultValue = "1") Long userId,
+                            Model model){
+        Event event = eventRepository.findById(eventId).orElse(null);
+        UserEntity user = userRepository.findById(userId).orElse(null);
+
+        boolean isLiked = event.getLiked() != null && event.getLiked().contains(user);
+
+        System.out.println("isLiked: " + isLiked);
+
+        if(!isLiked){
+            event.getLiked().add(user);
+            user.getLiked().add(event);
+            eventRepository.save(event);
+            userRepository.save(user);
+        }
+
+        model.addAttribute("event", event);
+        return "redirect:/event?eventId=" + eventId + "&userId=" + userId;
+    }
+
+    @GetMapping("/events/saves")
+    public String savedEvent(@RequestParam("eventId") Long eventId,
+                            @RequestParam(value = "userId", defaultValue = "1") Long userId,
+                            Model model){
+        Event event = eventRepository.findById(eventId).orElse(null);
+        UserEntity user = userRepository.findById(userId).orElse(null);
+
+        boolean isSaved = event.getSaved() != null && event.getSaved().contains(user);
+        if(!isSaved){
+            event.getSaved().add(user);
+            user.getSaved().add(event);
+
+            eventRepository.save(event);
+            userRepository.save(user);
+        }
+        model.addAttribute("event", event);
+        return "redirect:/event?eventId=" + eventId + "&userId=" + userId;
+    }
+
+    @GetMapping("/event/savesList")
+    public String savesList( @RequestParam(value = "userId", defaultValue = "1") Long userId, Model model){
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        List<Event> events = (List<Event>) user.getSaved();
+        model.addAttribute("events", events);
+        return "event/saves";
+    }
+    @GetMapping("/event/likesList")
+    public String likesList(@RequestParam(value = "userId", defaultValue = "1") Long userId, Model model){
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        List<Event> events = (List<Event>) user.getLiked();
+        model.addAttribute("events", events);
+        return "event/likes";
+    }
 
 }
