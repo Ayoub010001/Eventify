@@ -21,7 +21,7 @@ public class UserEntity {
     private String email;
 
     //Comment
-    @OneToMany(mappedBy = "userCommented", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntityCommented", cascade = CascadeType.ALL)
     private Collection<Comment> comments = new ArrayList<>();
 
     //Likes

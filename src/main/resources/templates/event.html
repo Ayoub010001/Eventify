@@ -8,7 +8,7 @@
     <title>Event</title>
 </head>
 <body>
-    <section layout:fragment="content" class="d-flex m-5">
+    <section layout:fragment="content" class="d-flex m-5 gap-3">
         <div class="card" style="width: 18rem;">
             <img th:src="'/uploads/'+${event.eventImage}" class="card-img-top" alt="eventImage">
             <div class="card-body">
@@ -28,6 +28,28 @@
                    th:class="${isSaved}? 'btn btn-success' : 'btn btn-outline-success'">📩 Save</a>
                 <br>
                 <a th:href="@{/events}" class="card-link">See All events</a>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+
+            <div class="card-header">
+                <form th:action="@{/event/comment(eventId=${event.eventId})}" method="post" th:object="${commentObj}">
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                        th:field="*{content}" th:value="${commentObj.content}"></textarea>
+                        <label for="floatingTextarea">Comments</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Comment</button>
+                </form>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li th:each="comment:${comments}" class="list-group-item">
+                        <p th:text="${comment.content}"></p>
+                        <span class="badge text-bg-primary" th:text="${comment.userEntityCommented.userName}"></span>
+                        <span class="badge text-bg-secondary" th:text="${comment.commentedAt.toString().substring(0,16)}"></span>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>

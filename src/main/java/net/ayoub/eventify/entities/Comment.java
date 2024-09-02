@@ -18,11 +18,11 @@ public class Comment {
     private Long commentId;
     private String content;
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date commentedAt;
 
     @ManyToOne
-    private UserEntity userCommented;
+    private UserEntity userEntityCommented;
     @ManyToOne
     private Event eventCommented;
 }

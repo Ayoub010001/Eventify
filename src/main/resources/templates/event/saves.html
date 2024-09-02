@@ -26,6 +26,7 @@
                     <td th:text="${event.country}+', '+${event.city}+', '+${event.address}"></td>
                     <td ><span class="badge text-bg-info" th:text="${event.startDate}"></span></td>
                     <td ><span class="badge text-bg-info" th:text="${event.endDate}"></span></td>
+                    <td><a th:href="@{/event/unsave(eventId=${event.eventId})}" class="btn btn-secondary">Remove</a></td>
                 </tr>
                 </tbody>
             </table>

@@ -1,7 +1,9 @@
 package net.ayoub.eventify.web;
 
+import net.ayoub.eventify.entities.Comment;
 import net.ayoub.eventify.entities.Event;
 import net.ayoub.eventify.entities.UserEntity;
+import net.ayoub.eventify.repositories.CommentRepository;
 import net.ayoub.eventify.repositories.EventRepository;
 import net.ayoub.eventify.repositories.UserRepository;
 import org.springframework.http.MediaType;
@@ -18,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,10 +30,12 @@ public class EventController {
     private final String UPLOAD_DIR = "src/main/resources/uploads";
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
-    public EventController(EventRepository eventRepository, UserRepository userRepository) {
+    public EventController(EventRepository eventRepository, UserRepository userRepository, CommentRepository commentRepository) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
     }
 
     //index path
@@ -52,11 +57,18 @@ public class EventController {
         Event event = eventRepository.findById(eventId).orElse(null);
         UserEntity user = userRepository.findById(userId).orElse(null);
 
+        //System.out.println("=>"+event.getLiked());
+
         boolean isLiked = event.getLiked() != null && event.getLiked().contains(user);
         boolean isSaved = event.getSaved() != null && event.getSaved().contains(user);
+
         model.addAttribute("event", event);
         model.addAttribute("isLiked", isLiked);
         model.addAttribute("isSaved", isSaved);
+
+        List<Comment> comment = (List<Comment>) commentRepository.findAllByUserEntityCommentedAndEventCommented(user,event);
+        model.addAttribute("comments", comment);
+        model.addAttribute("commentObj", new Comment());
         return "event";
     }
 
@@ -228,4 +240,42 @@ public class EventController {
         return "event/likes";
     }
 
+    @GetMapping("/event/unlike")
+    public String unlike(@RequestParam("eventId") Long eventId,
+            @RequestParam(value = "userId", defaultValue = "1") Long userId, Model model){
+        Event event = eventRepository.findById(eventId).orElse(null);
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        event.getLiked().remove(user);
+        user.getLiked().remove(event);
+        eventRepository.save(event);
+        userRepository.save(user);
+        return "redirect:/event?eventId=" + eventId + "&userId=" + userId;
+    }
+
+    @GetMapping("/event/unsave")
+    public String unsave(@RequestParam("eventId") Long eventId,
+                         @RequestParam(value = "userId", defaultValue = "1") Long userId, Model model){
+        Event event = eventRepository.findById(eventId).orElse(null);
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        event.getSaved().remove(user);
+        user.getSaved().remove(event);
+        eventRepository.save(event);
+        userRepository.save(user);
+        return "redirect:/event?eventId=" + eventId + "&userId=" + userId;
+    }
+
+    @PostMapping("/event/comment")
+    public String addComment(@RequestParam("eventId") Long eventId,
+                             @RequestParam(value = "userId", defaultValue = "1") Long userId,
+                             Comment comment, Model model){
+
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        Event event = eventRepository.findById(eventId).orElse(null);
+        comment.setEventCommented(event);
+        comment.setUserEntityCommented(user);
+        comment.setCommentedAt(new Date());
+
+        commentRepository.save(comment);
+        return "redirect:/event?eventId=" + eventId + "&userId=" + userId;
+    }
 }
