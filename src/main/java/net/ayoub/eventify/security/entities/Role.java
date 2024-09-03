@@ -20,6 +20,6 @@ public class Role {
     private Long roleId;
     private String roleName;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<UserAccount> users = new ArrayList<UserAccount>();
+//    @ManyToMany(mappedBy = "roles")
+//    private List<UserAccount> users = new ArrayList<UserAccount>();
 }

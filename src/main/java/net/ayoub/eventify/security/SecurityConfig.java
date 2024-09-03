@@ -3,13 +3,16 @@ package net.ayoub.eventify.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,15 +21,20 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     @Autowired
+    private CustomUserDetailService userDetailsService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http.
                 csrf(AbstractHttpConfigurer::disable).
                 formLogin(Customizer.withDefaults()).
+                //userDetailsService(userDetailsService).
                 authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/events").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.sameOrigin())
@@ -34,7 +42,8 @@ public class SecurityConfig {
                 .build();
     }
 
-    @Bean
+    //Don't use InMemoryDetailsService with Custom details service
+    //@Bean
     public UserDetailsService inMemoryUsers() {
         UserDetails user = User.builder()
                 .username("user")
@@ -48,4 +57,13 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(user, admin);
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration
+    ) throws Exception {
+            return authenticationConfiguration.getAuthenticationManager();
+    }
+
+
 }
+

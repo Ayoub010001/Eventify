@@ -6,6 +6,8 @@ import net.ayoub.eventify.entities.UserEntity;
 import net.ayoub.eventify.repositories.CategoryRepository;
 import net.ayoub.eventify.repositories.EventRepository;
 import net.ayoub.eventify.repositories.UserRepository;
+import net.ayoub.eventify.security.entities.Role;
+import net.ayoub.eventify.security.repository.RolesRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,7 +29,7 @@ public class EventifyApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(EventRepository eventRepository,
 										UserRepository	userRepository,
-										CategoryRepository categoryRepository) {
+										CategoryRepository categoryRepository, RolesRepository rolesRepository) {
 
 		return args -> {
 			Stream.of("Ayoub", "Yahya", "Ismail").forEach(name -> {
@@ -37,6 +39,10 @@ public class EventifyApplication {
 				user.setEmail(name+"@gmail.com");
 				userRepository.save(user);
 			});
+
+			Role role = new Role();
+			role.setRoleName("ROLE_USER");
+			rolesRepository.save(role);
 
 			Stream.of("Music", "Gaming").forEach(name -> {
 				Category category = new Category();
