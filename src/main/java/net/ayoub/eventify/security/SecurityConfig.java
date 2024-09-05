@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/events", true)// Custom login page
                         .permitAll()  // Permit access to the login page
                 )
+                .exceptionHandling( exception -> exception.accessDeniedPage("/notAuthorized"))
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.sameOrigin())
                 )

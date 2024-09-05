@@ -59,4 +59,8 @@ public class AuthController {
         //return login.html located in /resources/templates
         return "login";
     }
+    @GetMapping(value = "/notAuthorized")
+    public String accessDenied(){
+        return "notAuthorized";
+    }
 }
