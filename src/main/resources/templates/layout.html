@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Eventify</title>
@@ -22,7 +23,7 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/events}">All Events</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link active" aria-current="page" th:href="@{/events/new}">Add Event</a>
                 </li>
                 <li class="nav-item dropdown">
@@ -32,6 +33,9 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" th:href="@{/event/savesList}">Saved</a></li>
                         <li><a class="dropdown-item" th:href="@{/event/likesList}">Likes</a></li>
+                        <li><form th:action="@{/logout}" method="post">
+                            <button type="submit" class="dropdown-item">logout</button>
+                        </form></li>
                     </ul>
                 </li>
             </ul>

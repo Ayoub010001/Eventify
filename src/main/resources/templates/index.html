@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.utraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6"
       layout:decorate="layout">
 <head>
     <meta charset="UTF-8">
@@ -36,13 +37,13 @@
                         No image found
                     </p>
                 </td>
-                <td><a th:href="@{/event(eventId=${event.eventId})}" class="btn btn-outline-primary">
+                <td><a th:href="@{/event(eventId=${event.eventId},userId=${user.getUserId()})}" class="btn btn-outline-primary">
                     More info
                 </a></td>
-                <td><a th:href="@{/events/update(eventId=${event.eventId})}" class="btn btn-outline-success">
+                <td><a sec:authorize="hasRole('ADMIN')" th:href="@{/events/update(eventId=${event.eventId})}" class="btn btn-outline-success">
                     update
                 </a></td>
-                <td><a th:href="@{/events/delete(eventId=${event.eventId})}" class="btn btn-outline-danger">
+                <td><a sec:authorize="hasRole('ADMIN')" th:href="@{/events/delete(eventId=${event.eventId})}" class="btn btn-outline-danger">
                     delete
                 </a></td>
             </tr>

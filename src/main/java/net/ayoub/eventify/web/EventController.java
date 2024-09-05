@@ -6,7 +6,11 @@ import net.ayoub.eventify.entities.UserEntity;
 import net.ayoub.eventify.repositories.CommentRepository;
 import net.ayoub.eventify.repositories.EventRepository;
 import net.ayoub.eventify.repositories.UserRepository;
+import net.ayoub.eventify.security.entities.UserAccount;
+//import net.ayoub.eventify.security.repository.UserAccountRepository;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +51,11 @@ public class EventController {
     @GetMapping("/events")
     public String events(Model model){
         List<Event> events = eventRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String UserName =authentication.getName();
+        UserEntity userAccount = userRepository.findByUserName(UserName).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        model.addAttribute("user", userAccount);
         model.addAttribute("events", events);
         return "index";
     }
@@ -65,8 +74,9 @@ public class EventController {
         model.addAttribute("event", event);
         model.addAttribute("isLiked", isLiked);
         model.addAttribute("isSaved", isSaved);
+        model.addAttribute("userId", userId);
 
-        List<Comment> comment = (List<Comment>) commentRepository.findAllByUserEntityCommentedAndEventCommented(user,event);
+        List<Comment> comment = (List<Comment>) commentRepository.findAllByEventCommented(event);
         model.addAttribute("comments", comment);
         model.addAttribute("commentObj", new Comment());
         return "event";

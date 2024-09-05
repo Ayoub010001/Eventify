@@ -30,12 +30,22 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http.
                 csrf(AbstractHttpConfigurer::disable).
-                formLogin(Customizer.withDefaults()).
-                //userDetailsService(userDetailsService).
+                userDetailsService(userDetailsService).
                 authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/login").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/events/delete",
+                                 "/events/update","/events/new",
+                                 "/events/save","/events/saveUpdates").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/events", true)// Custom login page
+                        .permitAll()  // Permit access to the login page
+                )
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.sameOrigin())
                 )

@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.ayoub.eventify.security.entities.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -19,6 +21,9 @@ public class UserEntity {
     private String userName;
     private String password;
     private String email;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Role> roles = new ArrayList<>();
 
     //Comment
     @OneToMany(mappedBy = "userEntityCommented", cascade = CascadeType.ALL)

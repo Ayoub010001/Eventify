@@ -1,8 +1,9 @@
 package net.ayoub.eventify.security;
 
+import net.ayoub.eventify.entities.UserEntity;
+import net.ayoub.eventify.repositories.UserRepository;
 import net.ayoub.eventify.security.entities.Role;
-import net.ayoub.eventify.security.entities.UserAccount;
-import net.ayoub.eventify.security.repository.UserAccountRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,12 +21,12 @@ import java.util.stream.Collectors;
 public class CustomUserDetailService implements UserDetailsService {
 
     @Autowired
-    private UserAccountRepository userAccountRepository;
+    private UserRepository userRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAccount userAccount = userAccountRepository.findByUserName(username).orElseThrow(
+        UserEntity userAccount = userRepository.findByUserName(username).orElseThrow(
                 () -> new UsernameNotFoundException(username)
         );
         return new User(userAccount.getUserName(),userAccount.getPassword(),getAuthorities(userAccount.getRoles()));
