@@ -47,10 +47,10 @@ public class Event {
     private Collection<Comment> comments = new ArrayList<>();
 
     //Likes
-    @ManyToMany(mappedBy = "liked", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "liked")
     private Collection<UserEntity> liked = new ArrayList<>();
     //Likes
-    @ManyToMany(mappedBy = "saved", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "saved")
     private Collection<UserEntity> saved = new ArrayList<>();
 
 }

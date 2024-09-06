@@ -10,4 +10,5 @@ import java.util.Collection;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     Collection<Comment> findAllByUserEntityCommentedAndEventCommented(UserEntity user, Event event);
     Collection<Comment> findAllByEventCommented(Event event);
+    Comment findCommentByCommentId(Long commentId);
 }

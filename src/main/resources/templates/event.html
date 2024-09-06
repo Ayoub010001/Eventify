@@ -45,6 +45,8 @@
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li th:each="comment:${comments}" class="list-group-item">
+                        <a th:if="${comment.getUserEntityCommented().userId == userId}"
+                                th:href="@{/event/comment/delete(eventId=${event.eventId},userId=${userId},commentId=${comment.commentId})}" class="btn btn-danger">X</a>
                         <p th:text="${comment.content}"></p>
                         <span th:class="${comment.userEntityCommented.userId == userId}?'badge text-bg-primary':'badge text-bg-success'" th:text="${comment.userEntityCommented.userName}"></span>
                         <span class="badge text-bg-secondary" th:text="${comment.commentedAt.toString().substring(0,16)}"></span>

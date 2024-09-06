@@ -70,13 +70,13 @@ public class EventController {
 
         boolean isLiked = event.getLiked() != null && event.getLiked().contains(user);
         boolean isSaved = event.getSaved() != null && event.getSaved().contains(user);
+        List<Comment> comment = (List<Comment>) commentRepository.findAllByEventCommented(event);
 
         model.addAttribute("event", event);
         model.addAttribute("isLiked", isLiked);
         model.addAttribute("isSaved", isSaved);
         model.addAttribute("userId", userId);
 
-        List<Comment> comment = (List<Comment>) commentRepository.findAllByEventCommented(event);
         model.addAttribute("comments", comment);
         model.addAttribute("commentObj", new Comment());
         return "event";
@@ -176,8 +176,11 @@ public class EventController {
     }
 
     @GetMapping("/events/delete")
-    public String deleteEvent(@RequestParam("eventId") Long eventId, Model model) throws IOException {
+    public String deleteEvent(@RequestParam("eventId") Long eventId,
+                              //@RequestParam("userId") Long userId,
+                              Model model) throws IOException {
         Event event = eventRepository.findById(eventId).orElse(null);
+
         if(event.getEventImage() != null){
 
             Path uploadDirPath = Paths.get(UPLOAD_DIR);
@@ -190,6 +193,19 @@ public class EventController {
                 System.out.println("File does not exist: " + filePath);
             }
         }
+        //event delete likes and saves
+        // Remove the event from all users' liked and saved collections
+        for (UserEntity user : event.getLiked()) {
+            user.getLiked().remove(event);
+        }
+        for (UserEntity user : event.getSaved()) {
+            user.getSaved().remove(event);
+        }
+
+        // Clear the associations in the event itself
+        event.getLiked().clear();
+        event.getSaved().clear();
+
         eventRepository.delete(event);
         return "redirect:/events";
     }
@@ -286,6 +302,22 @@ public class EventController {
         comment.setCommentedAt(new Date());
 
         commentRepository.save(comment);
+        return "redirect:/event?eventId=" + eventId + "&userId=" + userId;
+    }
+    @GetMapping("/event/comment/delete")
+    public String deleteComment(@RequestParam("eventId") Long eventId,
+                                @RequestParam(value = "userId", defaultValue = "1") Long userId,
+                                @RequestParam(value = "commentId") Long commentId, Model model){
+
+        //find comment
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if(comment == null){
+            throw new RuntimeException("Comment not found");
+        }
+        if(comment.getUserEntityCommented().getUserId() == userId.longValue()){
+            commentRepository.delete(comment);
+        }
+        //delete comment
         return "redirect:/event?eventId=" + eventId + "&userId=" + userId;
     }
 }
