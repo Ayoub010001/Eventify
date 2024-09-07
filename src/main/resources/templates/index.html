@@ -9,7 +9,31 @@
     <title>Title</title>
 </head>
 <body>
-    <div layout:fragment="content">
+    <div layout:fragment="content" class="">
+        <section class="hero-section container-width">
+            <h1 class="hero-title">Eventify your space  to manage your events</h1>
+            <p class="hero-subtitle">Eventify a platform to manage your events easily, you can like, save and comment on your favourite events</p>
+        </section>
+        <section class="cards-section">
+            <div class="cards-container container-width">
+                <div th:each="event:${events}"  class="event-card">
+                    <div class="card-img-container">
+                        <a  sec:authorize="hasRole('ADMIN')" th:href="@{/events/delete(eventId=${event.eventId})}" class="small-icon delete-icon">X</a>
+                        <a  sec:authorize="hasRole('ADMIN')" th:href="@{/events/update(eventId=${event.eventId})}" class="small-icon edit-icon">edit</a>
+                        <img class="event-img" th:if="${(event.eventImage!= null) and (!event.eventImage.isEmpty())}"
+                             th:src="'/uploads/'+${event.eventImage}" alt="event cover">
+                    </div>
+                    <div class="event-card-body">
+                        <p class="event-card-title" th:text="${event.title}">Title</p>
+                        <a th:href="@{/event(eventId=${event.eventId},userId=${user.getUserId()})}"
+                           class="source-link">see more</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+<!--
         <table class="table">
             <thead>
             <tr>
@@ -31,15 +55,17 @@
                 <td th:text="${event.city}"></td>
                 <td th:text="${event.address}"></td>
                 <td><img
-                        th:if="${event.eventImage!= null and !event.eventImage.isEmpty()}"
+                        th:if="${(event.eventImage!= null) and (!event.eventImage.isEmpty())}"
                         th:src="'/uploads/'+${event.eventImage}" width="90">
                     <p th:unless="${event.eventImage != null and !event.eventImage.isEmpty()}">
                         No image found
                     </p>
                 </td>
-                <td><a th:href="@{/event(eventId=${event.eventId},userId=${user.getUserId()})}" class="btn btn-outline-primary">
+                <td>
+                    <a th:href="@{/event(eventId=${event.eventId},userId=${user.getUserId()})}" class="btn btn-outline-primary">
                     More info
-                </a></td>
+                </a>
+                </td>
                 <td><a sec:authorize="hasRole('ADMIN')" th:href="@{/events/update(eventId=${event.eventId})}" class="btn btn-outline-success">
                     update
                 </a></td>
@@ -49,6 +75,7 @@
             </tr>
             </tbody>
         </table>
+-->
     </div>
 </body>
 </html>

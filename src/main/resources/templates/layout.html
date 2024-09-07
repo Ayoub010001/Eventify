@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-     xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Eventify</title>
@@ -10,9 +10,10 @@
           rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-primary-subtle">
+<nav class="navbar navbar-dark navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/events}">Eventify</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
@@ -21,14 +22,19 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/events}">All Events</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/events}">
+                        <button class="btn-box">all events</button>
+                    </a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link active" aria-current="page" th:href="@{/events/new}">Add Event</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/events/new}">
+                        <button class="btn-box">add Event</button>
+                    </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                       th:text="${#authentication.name}">
+                    <a class="nav-link " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                      >
+                        <button class="btn-box dropdown-toggle"  th:text="${#authentication.name}"></button>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" th:href="@{/event/savesList}">Saved</a></li>
@@ -45,9 +51,11 @@
 <div layout:fragment="content">
     <!-- Page content will go here -->
 </div>
+<footer>
+    <p>&#169;Copyrights 2024, Made by Ayoub Ritoub</p>
+</footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-
 </body>
 </html>

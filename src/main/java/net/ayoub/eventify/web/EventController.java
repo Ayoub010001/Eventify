@@ -53,16 +53,18 @@ public class EventController {
         List<Event> events = eventRepository.findAll();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String UserName =authentication.getName();
-        UserEntity userAccount = userRepository.findByUserName(UserName).orElseThrow(() -> new RuntimeException("User Not Found"));
+        UserEntity userAccount = userRepository.findByUserName(UserName).orElse(null);
 
-        model.addAttribute("user", userAccount);
+        if(userAccount != null){
+            model.addAttribute("user", userAccount);
+        }
         model.addAttribute("events", events);
         return "index";
     }
 
     @GetMapping("/event")
     public String event(Model model, @RequestParam("eventId") Long eventId,
-                        @RequestParam(value = "userId", defaultValue = "1") Long userId){
+                        @RequestParam(value = "userId") Long userId){
         Event event = eventRepository.findById(eventId).orElse(null);
         UserEntity user = userRepository.findById(userId).orElse(null);
 

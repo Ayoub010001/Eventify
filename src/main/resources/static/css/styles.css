@@ -1,0 +1,333 @@
+@font-face {
+    font-family: 'ubuntu';
+    src: url('/fonts/Ubuntu-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ubuntu';
+    src: url('/fonts/Ubuntu-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ubuntu';
+    src: url('/fonts/Ubuntu-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'space-grotesk';
+    src: url('/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'space-grotesk';
+    src: url('/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+:root{
+    /*Color-palette*/
+    --primary-color:#392DBC;
+    --secondary-color:#9747FF;
+    --background-color:#181824;
+    --dark-background-color:#11111E;
+    --light-color:#F2F2F2;
+    /*Text font*/
+    --font-primary:'space-grotesk', sans-serif;
+    --font-mono:'ubuntu', sans-serif;
+    /*font size*/
+    --font-size-base:16px;
+
+    --font-size-logo:1.875rem;
+
+    --font-size-heroTitle-lg:2.875rem;
+    --font-size-heroTitle:2rem;
+
+    --font-size-text:1.125rem;
+    --font-size-text-sm:0.875rem;
+    /*Text weight*/
+    --font-bold: bold;
+    --font-normal: normal;
+}
+/*--------------------*/
+/* The Actual styling */
+/*--------------------*/
+
+*,p{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: var(--background-color);
+}
+/*--------------------*/
+/*      Footer        */
+/*--------------------*/
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+    color: var(--light-color);
+    height: 100px;
+}
+/*--------------------*/
+/*      Navbar        */
+/*--------------------*/
+.navbar{
+    width: 100%;
+    padding: 18px 0;
+}
+.navbar-brand, .navbar-brand:hover{
+    color: var(--light-color);
+    font-size: var(--font-size-heroTitle);
+    font-weight: var(--font-bold);
+    font-family: 'ubuntu', sans-serif;
+    font-style: italic;
+    text-decoration: none;
+}
+.nav-link{
+    color: var(--light-color);
+    font-size: var(--font-size-text);
+    font-weight: var(--font-normal);
+    font-family: 'ubuntu', sans-serif;
+}
+.container-fluid{
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+}
+.navbar-collapse{
+    justify-content: flex-end;
+}
+.btn-box{
+    display: flex;
+    width: fit-content;
+    padding: 6px 31px;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #FFF;
+    background: transparent;
+    box-shadow: 0 1px 5px 0 #392DBC;
+    font-size: var(--font-size-text);
+    color: var(--light-color);
+}
+.btn-box:hover, .btn-box:focus, .btn-box:active{
+    background: var(--primary-color);
+}
+.dropdown-menu{
+    border-radius: 10px;
+    border: 1px solid #FFF;
+    /*background: var(--dark-background-color);*/
+    background: rgba(17, 17, 30, 0.5);
+    backdrop-filter: blur(-5px);
+    box-shadow: 0 1px 5px 0 #392DBC;
+}
+.dropdown-item{
+    color: var(--light-color);
+}
+.dropdown-item:hover{
+    color: var(--light-color);
+    background-color: var(--primary-color);
+}
+
+/*--------------------*/
+/*       HomePage     */
+/*--------------------*/
+
+.container-width{
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+.event-card{
+    width: 324px;
+    height: 245px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: rgba(17, 17, 30, 0.5);
+    backdrop-filter: blur(-5px);
+    padding: 10px;
+    border: 0.05rem solid var(--light-color) 0.4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    place-self: center;
+}
+.card-img-container{
+    width: 100%;
+    height: 189px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #FFF;
+    position: relative;
+}
+.small-icon,.small-icon:visited{
+    position: absolute;
+    top: 4px;
+    color: var(--background-color);
+    font-family: var(--font-mono), sans-serif;
+    font-size: var(--font-size-text-sm);
+    background-color: var(--light-color);
+    padding: 2px 6px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.delete-icon{
+    right:4px;
+    top: 4px;
+}
+.edit-icon{
+    right:32px;
+    top: 4px;
+}
+.small-icon:hover,.small-icon:active{
+    color: var(--light-color);
+    background-color: var(--primary-color);
+}
+.event-card-body{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.event-card-title{
+    color: var(--light-color);
+    font-family: var(--font-mono), sans-serif;
+    font-size: var(--font-size-text);
+}
+.source-link, .source-link:visited{
+    color: var(--background-color);
+    font-family: var(--font-mono), sans-serif;
+    font-size: var(--font-size-text-sm);
+    background-color: var(--light-color);
+    padding: 2px 5px;
+    border-radius: 8px;
+    text-decoration: none;
+    align-self: end;
+}
+.source-link:active, .source-link:hover{
+    color: var(--light-color);
+    font-family: var(--font-mono), sans-serif;
+    font-size: var(--font-size-text-sm);
+    background-color: var(--primary-color);
+}
+.cards-container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.cards-section{
+    width: 100%;
+    box-shadow: inset 10px 10px 30px var(--background-color);
+    background-image: url("/images/Texture.png");
+    background-repeat: repeat;
+    background-size: 40%;
+    min-height: 620px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.hero-section{
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.hero-section::after {
+    content: ''; /* Corrected from 'contain' to 'content' */
+    width: 732px;
+    height: 732px;
+    transform: rotate(150.477deg);
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(151, 71, 255, 0.30) 0%, rgba(24, 24, 36, 0.00) 100%);
+    position: absolute; /* Position the circle relative to .hero-section */
+    top: auto; /* Adjust as needed to position the circle above the section */
+    bottom: auto;
+    right: 10px;
+    opacity: 0.7;
+    object-fit: contain;
+    z-index: -10;
+}
+.hero-section::before {
+    content: ''; /* Corrected from 'contain' to 'content' */
+    width: 732px;
+    height: 732px;
+    transform: rotate(160deg);
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(71, 102, 255, 0.30) 0%, rgba(24, 24, 36, 0.00) 100%);
+    position: absolute; /* Position the circle relative to .hero-section */
+    top: 0; /* Adjust as needed to position the circle above the section */
+    bottom: 0;
+    left: 5px;
+    opacity: 0.7;
+}
+
+.hero-title{
+    color: var(--light-color);
+    text-shadow: -3px 2px 0 var(--primary-color);
+    font-family: var(--font-primary), monospace;
+    font-size: var(--font-size-heroTitle-lg);
+    font-weight: var(--font-bold);
+    line-height: normal;
+    text-align: center;
+    max-width: 70%;
+    margin-bottom: var(--font-size-text);
+}
+.hero-subtitle{
+    color: var(--light-color);
+    text-align: center;
+    font-family: var(--font-mono), sans-serif;
+    font-size: var(--font-size-text);
+    font-style: normal;
+    font-weight: var(--font-normal);
+    line-height: normal;
+    max-width: 60%;
+}
+/*--------------------*/
+/*       add Event    */
+/*--------------------*/
+.card{
+    border-radius: 10px;
+    border: 1px solid #FFFA;
+    /*background: var(--dark-background-color);*/
+    background: rgba(17, 17, 30, 0.5);
+    backdrop-filter: blur(-5px);
+    box-shadow: 0 2px 8px 0 #392DBC;
+    font-family: var(--font-mono), sans-serif;
+    color: var(--light-color);
+    font-size: var(--font-size-text-sm);
+}
+.center-btn-box{
+    margin: auto;
+}
+.card-header{
+    font-family: var(--font-primary), sans-serif;
+    font-size: var(--font-size-text);
+    background-color: var(--primary-color);
+
+}
+.card-header:first-child {
+    border-radius: 9px 9px 0px 0px;
+}
