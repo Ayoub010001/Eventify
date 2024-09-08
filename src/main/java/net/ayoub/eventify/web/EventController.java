@@ -1,5 +1,6 @@
 package net.ayoub.eventify.web;
 
+import jakarta.validation.Valid;
 import net.ayoub.eventify.entities.Comment;
 import net.ayoub.eventify.entities.Event;
 import net.ayoub.eventify.entities.UserEntity;
@@ -13,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,11 +94,16 @@ public class EventController {
 
     @PostMapping(value = "/events/save" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String saveEvent(Model model,
-            @RequestParam("file") MultipartFile eventImage,
-            Event event) throws IOException {
+                            @RequestParam("file") MultipartFile eventImage,
+                            @Valid Event event, BindingResult result) throws IOException {
 
+        // Manually validate file size
+        long maxSizeInBytes = 5 * 1024 * 1024; // 5MB limit
+        if (eventImage != null && eventImage.getSize() > maxSizeInBytes) {
+            result.rejectValue("eventImage", "error.eventImage", "File size exceeds the maximum allowed limit of 5MB");
+        }
         //save file name in db
-        if(!eventImage.isEmpty()){
+        if(!eventImage.isEmpty() && !result.hasErrors()){
             String[] getExtension = eventImage.getOriginalFilename().split("\\.");
             System.out.println(getExtension.toString());
             String fileName = UUID.randomUUID().toString()+"."+getExtension[getExtension.length-1].toLowerCase();
@@ -130,7 +137,7 @@ public class EventController {
 
     @PostMapping(value = "/events/saveUpdates", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String saveUpdateEvent(Model model,@RequestParam("file") MultipartFile eventImage,
-                                  Event eventUpdated) throws IOException {
+                                  @Valid Event eventUpdated) throws IOException {
 
         Event existingEvent = eventRepository.findById(eventUpdated.getEventId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event Id:" + eventUpdated.getEventId()));

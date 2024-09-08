@@ -32,7 +32,7 @@ public class SecurityConfig {
                 csrf(AbstractHttpConfigurer::disable).
                 userDetailsService(userDetailsService).
                 authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**","/css/**","/fonts/**").permitAll()
+                        .requestMatchers("/h2-console/**","/css/**","/fonts/**","/images/**").permitAll()
                         //.requestMatchers("/events").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/auth/**").permitAll()

@@ -36,8 +36,8 @@ public class EventifyApplication {
 		return args -> {
 			userDetailsService.addRole("ROLE_USER");
 			userDetailsService.addRole("ROLE_ADMIN");
-			userDetailsService.addUser("aub","1234",null);
-			userDetailsService.addUser("admin","1234",null);
+			userDetailsService.addUser("aub","1234","null@null.com");
+			userDetailsService.addUser("admin","1234","null@null.com");
 
 			userDetailsService.addRoleToUser("aub","ROLE_USER");
 			userDetailsService.addRoleToUser("admin","ROLE_ADMIN");
@@ -60,6 +60,9 @@ public class EventifyApplication {
 				Event event = new Event();
 				event.setTitle(name);
 				event.setDescription(name + " description...");
+				event.setCountry("Morocco");
+				event.setCity("Casablanca");
+				event.setAddress("Technopark");
 				eventRepository.save(event);
 			});
 		};

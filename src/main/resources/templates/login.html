@@ -8,15 +8,46 @@
         rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+<section class="auth-section">
+  <div class="auth-container">
+    <div class="form-header">
+      <h1 class="hero-title">Eventify</h1>
+      <p class="hero-subtitle">Log-in or Create an account.</p>
+    </div>
+
+
+    <div class="auth-form">
+        <form class="form-body" th:action="@{/login}" method="post">
+          <div class="form-group">
+            <label for="username">Password</label>
+            <input type="text" name="username" class="form-control" id="username" placeholder="username">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+          </div>
+          <div class="form-group btn-group">
+            <button type="submit" class="btn-box">Submit</button>
+            <a th:href="@{/auth}" class="btn-box btn-secondary">Sign up</a>
+          </div>
+        </form>
+
+    </div>
+
+  </div>
+</section>
+
+
 <div class="card" style="width: 18rem;">
   <div class="card-body">
     <div class="alert alert-danger" th:if="${param.error}">
       Invalid username and password.</div>
     <div class="alert alert-success" th:if="${param.logout}">
       You have been logged out.</div>
-    <form th:action="@{/login}" method="post">
+    <!--<form th:action="@{/login}" method="post">
       <div class="form-group">
         <label for="username">Password</label>
         <input type="text" name="username" class="form-control" id="username" placeholder="username">
@@ -27,7 +58,7 @@
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    <a th:href="@{/auth}" class="btn btn-outline-primary">Sign up</a>
+    <a th:href="@{/auth}" class="btn btn-outline-primary">Sign up</a>-->
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
