@@ -31,7 +31,7 @@ public class EventifyApplication {
 		SpringApplication.run(EventifyApplication.class, args);
 	}
 
-	@Bean
+	//@Bean
 	CommandLineRunner users(UserDetailsService userDetailsService) {
 		return args -> {
 			userDetailsService.addRole("ROLE_USER");
@@ -44,7 +44,7 @@ public class EventifyApplication {
 		};
 	}
 
-	@Bean
+	//@Bean
 	CommandLineRunner commandLineRunner(EventRepository eventRepository,
 										UserRepository	userRepository,
 										CategoryRepository categoryRepository, RolesRepository rolesRepository) {

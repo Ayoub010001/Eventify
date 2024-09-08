@@ -22,16 +22,8 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-    @NotBlank
-    @Column(unique = true)
-    @Size(min = 2)
     private String userName;
-    @NotBlank
-    @Size(min = 6)
     private String password;
-    @NotBlank
-    @Size(min = 6)
-    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Invalid email address")
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

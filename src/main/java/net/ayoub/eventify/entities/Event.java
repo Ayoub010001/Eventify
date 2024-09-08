@@ -21,17 +21,15 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId;
-    @NotBlank
-    @Size(min = 2)
+
     private String title;
-    @NotBlank
-    @Size(min = 4)
+
     private String description;
-    @NotBlank
+
     private String country;
-    @NotBlank
+
     private String city;
-    @NotBlank
+
     private String address;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,7 +41,7 @@ public class Event {
     private Date endDate;
 
     private String eventImage;
-    @Min(0)
+
     private int ticketNumber;
 
     //Association with Category

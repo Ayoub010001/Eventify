@@ -2,6 +2,7 @@ package net.ayoub.eventify.security;
 
 import net.ayoub.eventify.entities.UserEntity;
 import net.ayoub.eventify.repositories.UserRepository;
+import net.ayoub.eventify.security.entities.CustomUserDetails;
 import net.ayoub.eventify.security.entities.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,10 @@ public class CustomUserDetailService implements UserDetailsService {
         UserEntity userAccount = userRepository.findByUserName(username).orElseThrow(
                 () -> new UsernameNotFoundException(username)
         );
-        return new User(userAccount.getUserName(),userAccount.getPassword(),getAuthorities(userAccount.getRoles()));
+        //return new User(userAccount.getUserName(),userAccount.getPassword(),getAuthorities(userAccount.getRoles()));
+        return new CustomUserDetails(userAccount.getUserId(),
+                userAccount.getUserName(),userAccount.getPassword(),getAuthorities(userAccount.getRoles())
+        );
     }
 
     public Collection<GrantedAuthority> getAuthorities(List<Role> roles) {

@@ -261,10 +261,15 @@ public class EventController {
     }
 
     @GetMapping("/event/savesList")
-    public String savesList( @RequestParam(value = "userId", defaultValue = "1") Long userId, Model model){
+    public String savesList( @RequestParam(value = "userId") Long userId, Model model){
         UserEntity user = userRepository.findById(userId).orElse(null);
-        List<Event> events = (List<Event>) user.getSaved();
-        model.addAttribute("events", events);
+        if(user != null){
+            List<Event> events = (List<Event>) user.getSaved();
+            System.out.println(events.size());
+            model.addAttribute("events", events);
+        }else{
+            System.out.println("no user");
+        }
         return "event/saves";
     }
     @GetMapping("/event/likesList")

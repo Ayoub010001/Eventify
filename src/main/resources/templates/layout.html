@@ -37,8 +37,8 @@
                         <button class="btn-box dropdown-toggle"  th:text="${#authentication.name}"></button>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" th:href="@{/event/savesList}">Saved</a></li>
-                        <li><a class="dropdown-item" th:href="@{/event/likesList}">Likes</a></li>
+                        <li><a class="dropdown-item" th:href="@{/event/savesList(userId=${#authentication.getPrincipal().id})}">Saved</a></li>
+                        <li><a class="dropdown-item" th:href="@{/event/likesList(userId=${#authentication.getPrincipal().id})}">Likes</a></li>
                         <li><form th:action="@{/logout}" method="post">
                             <button type="submit" class="dropdown-item">logout</button>
                         </form></li>
