@@ -306,6 +306,7 @@ footer{
     object-fit: contain;
     z-index: -10;
 }
+
 .hero-section::before {
     content: ''; /* Corrected from 'contain' to 'content' */
     width: 732px;
@@ -396,7 +397,7 @@ footer{
     backdrop-filter: blur(-5px);
     padding: 50px;
     border: 0.05rem solid var(--light-color) 0.4;
-    max-width: 46rem;
+    min-width: 28rem;
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
@@ -424,21 +425,21 @@ label{
 }
 .btn-group{
     display: flex;
+    flex-direction: column;
     gap: 1.2rem;
 }
 .auth-container::before{
     content: '';
-    width: 732px;
-    height: 732px;
+    width: 480px;
+    height: 480px;
 
     flex-shrink: 0;
     border-radius: 50%;
     background: radial-gradient(50% 50% at 50% 50%, rgba(151, 71, 255, 0.30) 0%, rgba(24, 24, 36, 0.00) 100%);
     position: absolute; /* Position the circle relative to .hero-section */
-    top: auto; /* Adjust as needed to position the circle above the section */
-    bottom: auto;
+    top: 250px; /* Adjust as needed to position the circle above the section */
     transform: scale(1);
-    right: 20%;
+    left: 30%;
     opacity: 0.7;
     object-fit: contain;
     z-index: -1;
@@ -447,16 +448,15 @@ label{
 .auth-container::after{
     content: ''; /* Corrected from 'contain' to 'content' */
     transform: scale(1);
-    width: 732px;
-    height: 732px;
-
+    width: 480px;
+    height: 480px;
+    right: 30%;
     flex-shrink: 0;
     border-radius: 50%;
     background: radial-gradient(50% 50% at 50% 50%, rgba(71, 102, 255, 0.30) 0%, rgba(24, 24, 36, 0.00) 100%);
     position: absolute; /* Position the circle relative to .hero-section */
     top: 0; /* Adjust as needed to position the circle above the section */
     bottom: 0;
-    left: 20%;
     opacity: 0.7;
     z-index: -2;
     clip-path: inset(0 0 0 0);
