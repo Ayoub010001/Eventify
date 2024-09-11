@@ -17,8 +17,10 @@
       <h1 class="hero-title">Eventify</h1>
       <p class="hero-subtitle">Log-in or Create an account.</p>
     </div>
-
-
+    <div class="alert alert-danger" th:if="${param.error}">
+      Invalid username and password.</div>
+    <div class="alert alert-success" th:if="${param.logout}">
+      You have been logged out.</div>
     <div class="auth-form">
         <form class="form-body" th:action="@{/login}" method="post">
           <div class="form-group">
@@ -41,13 +43,13 @@
 </section>
 
 
-<div class="card" style="width: 18rem;">
+<!--<div class="card" style="width: 18rem;">
   <div class="card-body">
     <div class="alert alert-danger" th:if="${param.error}">
       Invalid username and password.</div>
     <div class="alert alert-success" th:if="${param.logout}">
       You have been logged out.</div>
-    <!--<form th:action="@{/login}" method="post">
+    <form th:action="@{/login}" method="post">
       <div class="form-group">
         <label for="username">Password</label>
         <input type="text" name="username" class="form-control" id="username" placeholder="username">
@@ -58,9 +60,9 @@
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    <a th:href="@{/auth}" class="btn btn-outline-primary">Sign up</a>-->
+    <a th:href="@{/auth}" class="btn btn-outline-primary">Sign up</a>
   </div>
-</div>
+</div>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

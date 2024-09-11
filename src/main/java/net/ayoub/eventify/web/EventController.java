@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -95,8 +96,11 @@ public class EventController {
     @PostMapping(value = "/events/save" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String saveEvent(Model model,
                             @RequestParam("file") MultipartFile eventImage,
-                            @Valid Event event, BindingResult result) throws IOException {
+                            @Valid @ModelAttribute("event") Event event, BindingResult result) throws IOException {
 
+        if (result.hasErrors()) {
+            return "events/newEvent";
+        }
         // Manually validate file size
         long maxSizeInBytes = 5 * 1024 * 1024; // 5MB limit
         if (eventImage != null && eventImage.getSize() > maxSizeInBytes) {
@@ -124,6 +128,7 @@ public class EventController {
                 Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
             }
         }
+
         eventRepository.save(event);
         return "redirect:/events";
     }
@@ -137,10 +142,14 @@ public class EventController {
 
     @PostMapping(value = "/events/saveUpdates", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String saveUpdateEvent(Model model,@RequestParam("file") MultipartFile eventImage,
-                                  @Valid Event eventUpdated) throws IOException {
+                                  @Valid @ModelAttribute("eventUpdated") Event eventUpdated, BindingResult result) throws IOException {
 
         Event existingEvent = eventRepository.findById(eventUpdated.getEventId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event Id:" + eventUpdated.getEventId()));
+
+        if(result.hasErrors()){
+            return "events/updateEvent";
+        }
 
         if(!eventImage.isEmpty()){
             //Create directory
@@ -221,7 +230,7 @@ public class EventController {
 
     @GetMapping("/events/like")
     public String likeEvent(@RequestParam("eventId") Long eventId,
-                            @RequestParam(value = "userId", defaultValue = "1") Long userId,
+                            @RequestParam(value = "userId") Long userId,
                             Model model){
         Event event = eventRepository.findById(eventId).orElse(null);
         UserEntity user = userRepository.findById(userId).orElse(null);
@@ -243,7 +252,7 @@ public class EventController {
 
     @GetMapping("/events/saves")
     public String savedEvent(@RequestParam("eventId") Long eventId,
-                            @RequestParam(value = "userId", defaultValue = "1") Long userId,
+                            @RequestParam(value = "userId") Long userId,
                             Model model){
         Event event = eventRepository.findById(eventId).orElse(null);
         UserEntity user = userRepository.findById(userId).orElse(null);
@@ -266,23 +275,26 @@ public class EventController {
         if(user != null){
             List<Event> events = (List<Event>) user.getSaved();
             System.out.println(events.size());
+            model.addAttribute("userId",userId);
             model.addAttribute("events", events);
         }else{
             System.out.println("no user");
         }
         return "event/saves";
     }
+
     @GetMapping("/event/likesList")
-    public String likesList(@RequestParam(value = "userId", defaultValue = "1") Long userId, Model model){
+    public String likesList(@RequestParam(value = "userId") Long userId, Model model){
         UserEntity user = userRepository.findById(userId).orElse(null);
         List<Event> events = (List<Event>) user.getLiked();
+        model.addAttribute("userId",userId);
         model.addAttribute("events", events);
         return "event/likes";
     }
 
     @GetMapping("/event/unlike")
     public String unlike(@RequestParam("eventId") Long eventId,
-            @RequestParam(value = "userId", defaultValue = "1") Long userId, Model model){
+            @RequestParam(value = "userId") Long userId, Model model){
         Event event = eventRepository.findById(eventId).orElse(null);
         UserEntity user = userRepository.findById(userId).orElse(null);
         event.getLiked().remove(user);
@@ -294,7 +306,7 @@ public class EventController {
 
     @GetMapping("/event/unsave")
     public String unsave(@RequestParam("eventId") Long eventId,
-                         @RequestParam(value = "userId", defaultValue = "1") Long userId, Model model){
+                         @RequestParam(value = "userId") Long userId, Model model){
         Event event = eventRepository.findById(eventId).orElse(null);
         UserEntity user = userRepository.findById(userId).orElse(null);
         event.getSaved().remove(user);
@@ -306,21 +318,22 @@ public class EventController {
 
     @PostMapping("/event/comment")
     public String addComment(@RequestParam("eventId") Long eventId,
-                             @RequestParam(value = "userId", defaultValue = "1") Long userId,
+                             @RequestParam(value = "userId") Long userId,
                              Comment comment, Model model){
 
-        UserEntity user = userRepository.findById(userId).orElse(null);
-        Event event = eventRepository.findById(eventId).orElse(null);
-        comment.setEventCommented(event);
-        comment.setUserEntityCommented(user);
-        comment.setCommentedAt(new Date());
-
-        commentRepository.save(comment);
+        if(!comment.getContent().isEmpty()){
+            UserEntity user = userRepository.findById(userId).orElse(null);
+            Event event = eventRepository.findById(eventId).orElse(null);
+            comment.setEventCommented(event);
+            comment.setUserEntityCommented(user);
+            comment.setCommentedAt(new Date());
+            commentRepository.save(comment);
+        }
         return "redirect:/event?eventId=" + eventId + "&userId=" + userId;
     }
     @GetMapping("/event/comment/delete")
     public String deleteComment(@RequestParam("eventId") Long eventId,
-                                @RequestParam(value = "userId", defaultValue = "1") Long userId,
+                                @RequestParam(value = "userId") Long userId,
                                 @RequestParam(value = "commentId") Long commentId, Model model){
 
         //find comment

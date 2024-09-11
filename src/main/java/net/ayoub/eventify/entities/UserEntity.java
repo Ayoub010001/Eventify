@@ -1,10 +1,7 @@
 package net.ayoub.eventify.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,8 +19,15 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
+    @NotBlank(message = "username should not be empty")
+    @Size(min = 3, max = 25, message = "username should be at least 3 characters")
     private String userName;
+    @NotEmpty(message = "password should not be empty")
+    @Size(min = 4, max = 25, message = "password should be at least 6 characters")
     private String password;
+    @Email(message = "invalid email address")
+    @NotEmpty(message = "email should not be empty")
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

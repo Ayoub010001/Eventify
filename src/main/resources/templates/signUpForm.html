@@ -27,20 +27,32 @@
             <label for="username">Username</label>
             <input type="text"
                    class="form-control" id="username"
-                   th:field="*{userName}" required placeholder="username">
+                   th:field="*{userName}" placeholder="username">
+            <small class="text-danger"
+                   th:if="${#fields.hasErrors('userName')}"
+                  th:errors="*{userName}"></small>
+
           </div>
           <div class="form-group">
             <label for="email">Email address</label>
             <input type="email"
                    class="form-control" id="email"
-                   th:field="*{email}" required placeholder="email">
+                   th:field="*{email}" placeholder="email">
+            <small class="text-danger"
+                   th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}"></small>
+
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input type="password"
                    class="form-control" id="password"
                    th:field="*{password}"
-                   required placeholder="email">
+                   placeholder="password">
+            <small class="text-danger"
+                   th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}"></small>
+
           </div>
           <div class="form-group btn-group">
             <button type="submit" class="btn-box">Submit</button>

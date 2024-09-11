@@ -23,11 +23,13 @@
                             <label for="event-title" class="form-label">Event Title</label>
                             <input type="text" class="form-control" id="event-title"
                                 th:field="*{title}">
+                            <span th:errors="${event.title}" class="text-danger"></span>
                         </div>
                         <div class="mb-3 flex-fill">
                             <label for="event-description" class="form-label">Event Description</label>
                             <input type="text" class="form-control" id="event-description"
                             th:field="*{description}">
+                            <span th:errors="${event.description}" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="d-flex gap-3 ">
@@ -35,11 +37,13 @@
                             <label for="event-country" class="form-label">Country</label>
                             <input type="text" class="form-control" id="event-country"
                             th:field="*{country}">
+                            <span th:errors="${event.country}" class="text-danger"></span>
                         </div>
                         <div class="mb-3 flex-fill">
                             <label for="event-city" class="form-label">City</label>
                             <input type="text" class="form-control" id="event-city"
                             th:field="*{city}">
+                            <span th:errors="${event.city}" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="d-flex gap-3">
@@ -47,11 +51,13 @@
                             <label for="event-address" class="form-label">Address</label>
                             <input type="text" class="form-control" id="event-address"
                             th:field="*{address}">
+                            <span th:errors="${event.address}" class="text-danger"></span>
                         </div>
                         <div class="mb-3 flex-fill">
                             <label for="event-tickets" class="form-label">Tickets Number</label>
                             <input type="number" class="form-control" id="event-tickets"
                             th:field="*{ticketNumber}">
+                            <span th:errors="${event.ticketNumber}" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -60,11 +66,13 @@
                             <label for="event-start-date" class="form-label">Address</label>
                             <input type="datetime-local" class="form-control" id="event-start-date"
                              th:field="*{startDate}">
+                            <span th:errors="${event.startDate}" class="text-danger"></span>
                         </div>
                         <div class="mb-3 flex-fill">
                             <label for="event-end-date" class="form-label">Tickets Number</label>
                             <input type="datetime-local" class="form-control" id="event-end-date"
                             th:field="*{endDate}">
+                            <span th:errors="${event.endDate}" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -77,6 +85,7 @@
                                 <label for="event-image" class="form-label">Event Cover</label>
                                 <input name="file" type="file" class="form-control" id="event-image"
                                        th:value="${event.eventImage}">
+                                <span th:errors="${event.eventImage}" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
