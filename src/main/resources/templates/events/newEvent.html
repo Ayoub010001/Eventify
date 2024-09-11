@@ -85,7 +85,7 @@
                                 <label for="event-image" class="form-label">Event Cover</label>
                                 <input name="file" type="file" class="form-control" id="event-image"
                                        th:value="${event.eventImage}">
-                                <span th:errors="${event.eventImage}" class="text-danger"></span>
+                                <span th:if="${#fields.hasErrors('eventImage')}" th:errors="*{eventImage}" class="text-danger"></span>
                             </div>
                         </div>
                     </div>

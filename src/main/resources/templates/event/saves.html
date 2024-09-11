@@ -8,25 +8,26 @@
     <title>Saves list</title>
 </head>
 <body>
-<div layout:fragment="content">
+<div layout:fragment="content" class="container-width">
     <div class="card">
         <div class="card-body">
-            <table class="table">
+            <table class="table table-hover table-dark table-bg-dark">
                 <thead>
                 <tr>
                     <th scope="col">Event</th>
                     <th scope="col">Location</th>
                     <th scope="col">Start at</th>
                     <th scope="col">End at</th>
+                    <th scope="col">Remove</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="event:${events}">
                     <th scope="row" th:text="${event.title}"></th>
                     <td th:text="${event.country}+', '+${event.city}+', '+${event.address}"></td>
-                    <td ><span class="badge text-bg-info" th:text="${event.startDate}"></span></td>
-                    <td ><span class="badge text-bg-info" th:text="${event.endDate}"></span></td>
-                    <td><a th:href="@{/event/unsave(eventId=${event.eventId},userId=${userId})}" class="btn btn-secondary">Remove</a></td>
+                    <td ><span class="badge text-bg-light p-2" th:text="${event.startDate}"></span></td>
+                    <td ><span class="badge text-bg-light p-2" th:text="${event.endDate}"></span></td>
+                    <td><a th:href="@{/event/unsave(eventId=${event.eventId},userId=${userId})}" class="btn btn-secondary"><i class="fa-solid fa-folder-minus fa-sm"></i></a></td>
                 </tr>
                 </tbody>
             </table>

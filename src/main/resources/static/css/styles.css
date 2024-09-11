@@ -1,3 +1,17 @@
+.table-dark {
+    --bs-table-color: #fff;
+    --bs-table-bg: transparent;
+    --bs-table-border-color: #4d5154;
+    --bs-table-striped-bg: #2c3034;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: transparent;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: var(--dark-background-color);
+    --bs-table-hover-color: #fff;
+    color: var(--light-color);
+    border-color: var(--light-color);
+}
+
 @font-face {
     font-family: 'ubuntu';
     src: url('/fonts/Ubuntu-Regular.ttf') format('truetype');
@@ -326,7 +340,7 @@ footer{
     color: var(--light-color);
     text-align: center;
     font-family: var(--font-mono), sans-serif;
-    font-size: var(--font-size-text);
+    font-size: var(--font-size-base);
     font-style: normal;
     font-weight: var(--font-normal);
     line-height: normal;
@@ -448,3 +462,144 @@ label{
     clip-path: inset(0 0 0 0);
 }
 
+/***********/
+/*  event  */
+/***********/
+
+.event-section{
+    background-image: url("/images/Glow_2x.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+
+    width: 100%;
+    height: 560px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row-reverse;
+    gap: 4rem;
+}
+.event-align{
+    text-align: start;
+    justify-self: start;
+    margin: 1rem 0;
+    max-width: 100%;
+}
+.category{
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 0.4rem 1.4rem;
+    border-radius: 6px;
+    width: fit-content;
+    font-family: 'ubuntu', sans-serif;
+    font-size: var(--font-size-text-sm);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 0.4rem;
+}
+.circle-category{
+    background-color: var(--background-color);
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+}
+.like-icon, .save-icon{
+    color: var(--light-color);
+}
+.like-icon-active{
+    color: crimson;
+}
+.save-icon-active{
+    color: var(--primary-color);
+}
+
+.event-cover-image{
+    background-color: var(--dark-background-color);
+    border-radius: 8px;
+    width: 40%;
+    height: 300px;
+    overflow: hidden;
+}
+.event-desc{
+    max-width: 70%;
+}
+.event-cover-image img{
+    object-fit: cover;
+}
+
+/*------------------------*/
+.comment-section{
+    box-shadow: inset 10px 10px 30px var(--background-color);
+    background-image: url("/images/Texture.png");
+    background-repeat: repeat;
+    background-size: 40%;
+    min-height: 200px;
+}
+.add-comment-field{
+    padding: 1rem;
+    width: 70%;
+    margin: auto;
+    background-color: var(--dark-background-color);
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 1rem;
+}
+.add-comment-field .form-floating{
+    grid-column: span 3;
+    place-self: stretch;
+}
+
+.add-comment-field .btn{
+    place-self: center stretch;
+}
+.comments-field{
+    width: 70%;
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+.comment-card{
+    width: 80%;
+}
+.comment-card .card-body, .comment-card-footer span{
+    color: var(--dark-background-color);
+}
+
+.comment-card-footer{
+    display: flex;
+    justify-content: space-between;
+    color: var(--dark-background-color);
+}
+
+.my-comment{
+    background-color: var(--secondary-color);
+}
+.others-comments{
+    background-color: var(--primary-color);
+}
+.error-section{
+    box-shadow: inset 10px 10px 30px var(--background-color);
+    background-image: url("/images/Texture.png");
+    background-repeat: repeat;
+    background-size: 40%;
+    min-height: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    color: var(--light-color);
+    font-family: 'space-grotesk', sans-serif;
+    font-size: var(--font-size-text);
+    padding: 2rem;
+
+}

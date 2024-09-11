@@ -8,7 +8,88 @@
     <title>Event</title>
 </head>
 <body>
-    <section layout:fragment="content" class="d-flex m-5 gap-3">
+    <div layout:fragment="content" class="container-width">
+        <section class="event-section">
+            <div>
+                <h1 class="hero-title event-align my-2" th:text="${event.title}"></h1>
+                <p class="hero-subtitle event-desc event-align lh-base" th:text="${event.description}"></p>
+
+
+                <div class="categories-list my-2 gap-3">
+                    <div class="category">
+                        <span class="circle-category"></span>
+                        <p class="badge badge-light" th:text="${event.country}+', '+${event.city}+', '+${event.address}"></p>
+                    </div>
+                    <div class="category">
+                        <span class="circle-category"></span>
+                        <p class="badge badge-light" th:text="'Start Date : '+${event.startDate.toString().substring(0,16)}"></p>
+                    </div>
+                    <div class="category">
+                        <span class="circle-category"></span>
+                        <p class="badge badge-light" th:text="'End Date : '+${event.endDate.toString().substring(0,16)}"></p>
+                    </div>
+                </div>
+                <div class="d-flex gap-4 my-3">
+                    <a th:if="${!isLiked}"  th:href="@{/events/like(eventId=${event.eventId},userId=${userId})}" class="like-icon">
+                        <i class="fa-regular fa-heart fa-xl"></i>
+                    </a>
+
+                    <a th:if="${isLiked}" th:href="@{/events/like(eventId=${event.eventId},userId=${userId})}" class="like-icon-active">
+                        <i class="fa-solid fa-heart fa-xl"></i>
+                    </a>
+
+                    <a th:if="${!isSaved}" th:href="@{/events/saves(eventId=${event.eventId},userId=${userId})}" class="save-icon">
+                        <i class="fa-regular fa-bookmark fa-xl"></i>
+                    </a>
+                    <a th:if="${isSaved}" th:href="@{/events/saves(eventId=${event.eventId},userId=${userId})}" class="save-icon-active">
+                        <i class="fa-solid fa-bookmark fa-xl"></i>
+                    </a>
+
+                </div>
+            </div>
+            <div class="event-cover-image">
+                    <img th:src="'/uploads/'+${event.eventImage}" class="card-img-top" alt="event image">
+            </div>
+
+        </section>
+        <section class="comment-section w-100">
+
+                <form class="add-comment-field" th:action="@{/event/comment(eventId=${event.eventId},userId=${userId})}"
+                      method="post"
+                      th:object="${commentObj}">
+
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                                  th:field="*{content}" th:value="${commentObj.content}"></textarea>
+                        <label for="floatingTextarea">Comments</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Comment</button>
+                </form>
+
+            <div  class="comments-field" th:if="${comments.size()>0}">
+                <div th:each="comment:${comments}"
+                     class="card comment-card bg-light mb-3">
+                    <div th:class="${comment.userEntityCommented.userId == userId}?'card-header my-comment':'card-header others-comments'"  th:text="${comment.userEntityCommented.userName}">
+
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text" th:text="${comment.content}"></p>
+
+                    </div>
+                    <div class="card-footer comment-card-footer">
+                        <p th:text="${comment.commentedAt.toString().substring(0,16)}">01010</p>
+                        <a th:if="${comment.getUserEntityCommented().userId == userId}"
+                           th:href="@{/event/comment/delete(eventId=${event.eventId},userId=${userId},commentId=${comment.commentId})}"
+                           ><i class="fa-solid fa-trash" style="color: #d62b00;"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="comments-field" th:if="${comments.size() == 0}">
+                <p class="text-light">There is no comments on this event.</p>
+            </div>
+
+        </section>
+        <!--
         <div class="card" style="width: 18rem;">
             <img th:src="'/uploads/'+${event.eventImage}" class="card-img-top" alt="eventImage">
             <div class="card-body">
@@ -53,7 +134,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
-    </section>
+        </div>-->
+    </div>
 </body>
 </html>

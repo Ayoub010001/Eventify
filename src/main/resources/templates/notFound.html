@@ -9,9 +9,15 @@
     <title>Title</title>
 </head>
 <body>
-    <div layout:fragment="content">
-        <div class="alert alert-danger">
-            Not Found 404
+    <div layout:fragment="content" class="container-width">
+
+        <div class="w-100 h-100 error-section">
+            <img class="error-img" alt="errorImg" src="/images/404img.png"
+                 width="300"
+                 height="300"
+            >
+            <h1 class="hero-title">404</h1>
+            <p class="error-text">This Page is Lost in Space</p>
         </div>
     </div>
 </body>

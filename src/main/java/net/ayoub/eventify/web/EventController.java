@@ -35,6 +35,7 @@ import java.util.UUID;
 @Controller
 public class EventController {
     private final String UPLOAD_DIR = "src/main/resources/uploads";
+    private final double UPLOAD_MAX_SIZE = 1024 * 1024;
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
@@ -97,7 +98,10 @@ public class EventController {
     public String saveEvent(Model model,
                             @RequestParam("file") MultipartFile eventImage,
                             @Valid @ModelAttribute("event") Event event, BindingResult result) throws IOException {
-
+        if (eventImage.getSize() > UPLOAD_MAX_SIZE) {
+            result.rejectValue("eventImage", "error.event", "Image size cannot exceed 5MB.");
+            return "events/newEvent";
+        }
         if (result.hasErrors()) {
             return "events/newEvent";
         }
@@ -142,12 +146,17 @@ public class EventController {
 
     @PostMapping(value = "/events/saveUpdates", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String saveUpdateEvent(Model model,@RequestParam("file") MultipartFile eventImage,
-                                  @Valid @ModelAttribute("eventUpdated") Event eventUpdated, BindingResult result) throws IOException {
+                                  @Valid @ModelAttribute("eventUpdate") Event eventUpdated, BindingResult result) throws IOException {
 
         Event existingEvent = eventRepository.findById(eventUpdated.getEventId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event Id:" + eventUpdated.getEventId()));
 
         if(result.hasErrors()){
+            return "events/updateEvent";
+        }
+
+        if (eventImage.getSize() > UPLOAD_MAX_SIZE) {
+            result.rejectValue("eventImage", "error.event", "Image size cannot exceed 5MB.");
             return "events/updateEvent";
         }
 

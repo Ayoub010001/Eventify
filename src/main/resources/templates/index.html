@@ -18,15 +18,15 @@
             <div class="cards-container container-width">
                 <div th:each="event:${events}"  class="event-card">
                     <div class="card-img-container">
-                        <a  sec:authorize="hasRole('ADMIN')" th:href="@{/events/delete(eventId=${event.eventId})}" class="small-icon delete-icon">X</a>
-                        <a  sec:authorize="hasRole('ADMIN')" th:href="@{/events/update(eventId=${event.eventId})}" class="small-icon edit-icon">edit</a>
+                        <a  sec:authorize="hasRole('ADMIN')" th:href="@{/events/delete(eventId=${event.eventId})}" class="small-icon delete-icon"><i class="fa-solid fa-trash fa-sm"></i></a>
+                        <a  sec:authorize="hasRole('ADMIN')" th:href="@{/events/update(eventId=${event.eventId})}" class="small-icon edit-icon"><i class="fa-solid fa-pen-to-square fa-sm"></i></a>
                         <img class="event-img" th:if="${(event.eventImage!= null) and (!event.eventImage.isEmpty())}"
                              th:src="'/uploads/'+${event.eventImage}" alt="event cover">
                     </div>
                     <div class="event-card-body">
                         <p class="event-card-title" th:text="${event.title}">Title</p>
                         <a th:href="@{/event(eventId=${event.eventId},userId=${user.getUserId()})}"
-                           class="source-link">see more</a>
+                           class="source-link">Details <i class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a>
                     </div>
                 </div>
 

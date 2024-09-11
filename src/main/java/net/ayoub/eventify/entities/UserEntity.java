@@ -24,7 +24,7 @@ public class UserEntity {
     @Size(min = 3, max = 25, message = "username should be at least 3 characters")
     private String userName;
     @NotEmpty(message = "password should not be empty")
-    @Size(min = 4, max = 25, message = "password should be at least 6 characters")
+    @Size(min = 4, max = 225, message = "password should be at least 4 characters")
     private String password;
     @Email(message = "invalid email address")
     @NotEmpty(message = "email should not be empty")
