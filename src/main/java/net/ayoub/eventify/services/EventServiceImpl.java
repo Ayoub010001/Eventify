@@ -6,6 +6,8 @@ import net.ayoub.eventify.entities.UserEntity;
 import net.ayoub.eventify.repositories.CommentRepository;
 import net.ayoub.eventify.repositories.EventRepository;
 import net.ayoub.eventify.repositories.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,8 +39,8 @@ public class EventServiceImpl implements EventService{
     //Events
 
     @Override
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+    public Page<Event> getAllEvents(int page, int size) {
+        return eventRepository.findAll(PageRequest.of(page,size));
     }
 
     @Override

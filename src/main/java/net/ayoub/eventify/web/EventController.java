@@ -11,6 +11,7 @@ import net.ayoub.eventify.security.entities.UserAccount;
 //import net.ayoub.eventify.security.repository.UserAccountRepository;
 import net.ayoub.eventify.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,18 +39,9 @@ import java.util.UUID;
 public class EventController {
     private final String UPLOAD_DIR = "src/main/resources/uploads";
     private final double UPLOAD_MAX_SIZE = 4 * 1024 * 1024;
-    private final EventRepository eventRepository;
-    private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
-
     @Autowired
     private EventService eventService;
 
-    public EventController(EventRepository eventRepository, UserRepository userRepository, CommentRepository commentRepository) {
-        this.eventRepository = eventRepository;
-        this.userRepository = userRepository;
-        this.commentRepository = commentRepository;
-    }
 
     //index path ✅
     @GetMapping("/")
@@ -58,9 +50,11 @@ public class EventController {
     }
     //home ✅
     @GetMapping("/events")
-    public String events(Model model){
+    public String events(@RequestParam(value = "page", defaultValue = "0") int page,
+                         @RequestParam(value = "size", defaultValue = "6") int size
+            , Model model){
         //List<Event> events = eventRepository.findAll();
-        List<Event> events = eventService.getAllEvents();
+        Page<Event> events = eventService.getAllEvents(page, size);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String UserName =authentication.getName();
         //UserEntity userAccount = userRepository.findByUserName(UserName).orElse(null);
@@ -68,7 +62,8 @@ public class EventController {
         if(userAccount != null){
             model.addAttribute("user", userAccount);
         }
-        model.addAttribute("events", events);
+        model.addAttribute("events", events.getContent());
+        model.addAttribute("pages",new int[events.getTotalPages()]);
         return "index";
     }
 

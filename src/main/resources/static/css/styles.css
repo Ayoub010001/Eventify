@@ -603,3 +603,8 @@ label{
     padding: 2rem;
 
 }
+/*pagination*/
+.pagination-container{
+    width: fit-content;
+    margin: auto;
+}

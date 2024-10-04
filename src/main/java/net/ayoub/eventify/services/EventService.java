@@ -3,6 +3,7 @@ package net.ayoub.eventify.services;
 import net.ayoub.eventify.entities.Comment;
 import net.ayoub.eventify.entities.Event;
 import net.ayoub.eventify.entities.UserEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface EventService {
     //Events
-    List<Event> getAllEvents();
+    Page<Event> getAllEvents(int page, int size);
     Event getEventById(Long eventId);
     void deleteEvent(Long eventId) throws IOException;
     void addEvent(MultipartFile eventImage, Event event) throws IOException;

@@ -29,9 +29,13 @@
                            class="source-link">Details <i class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a>
                     </div>
                 </div>
-
             </div>
         </section>
+        <nav aria-label="Page navigation example w-100">
+            <ul class="pagination pagination-container">
+                <li th:each="p,status:${pages}"  class="page-item"><a class="page-link" th:href="@{/events(page=${status.index})}" th:text="${status.index}"></a></li>
+            </ul>
+        </nav>
 
 <!--
         <table class="table">
