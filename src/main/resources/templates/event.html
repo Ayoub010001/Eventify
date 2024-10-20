@@ -30,14 +30,15 @@
                     </div>
                 </div>
                 <div class="d-flex gap-4 my-3">
+
                     <a th:if="${!isLiked}"  th:href="@{/events/like(eventId=${event.eventId},userId=${userId})}" class="like-icon">
                         <i class="fa-regular fa-heart fa-xl"></i>
+                        <span th:text="${event.getLiked().size()}" class="text-light m-0"></span>
                     </a>
-
                     <a th:if="${isLiked}" th:href="@{/events/like(eventId=${event.eventId},userId=${userId})}" class="like-icon-active">
                         <i class="fa-solid fa-heart fa-xl"></i>
+                        <span th:text="${event.getLiked().size()}" class="text-light mx-2"></span>
                     </a>
-
                     <a th:if="${!isSaved}" th:href="@{/events/saves(eventId=${event.eventId},userId=${userId})}" class="save-icon">
                         <i class="fa-regular fa-bookmark fa-xl"></i>
                     </a>

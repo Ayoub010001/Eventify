@@ -186,7 +186,7 @@ public class EventController {
     }
     // TODO✅
     @GetMapping("/event/savesList")
-    public String savesList( @RequestParam(value = "userId") Long userId, Model model){
+    public String savesList( @RequestParam(value = "userId") Long userId,Model model){
         UserEntity user = eventService.getUserById(userId);
         List<Event> events = eventService.getSavedEvents(user);
         model.addAttribute("userId",userId);

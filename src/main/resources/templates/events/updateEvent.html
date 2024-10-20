@@ -63,13 +63,13 @@
 
                     <div class="d-flex gap-3">
                         <div class="mb-3 flex-fill">
-                            <label for="event-start-date" class="form-label">Address</label>
+                            <label for="event-start-date" class="form-label">Start Date</label>
                             <input type="datetime-local" class="form-control" id="event-start-date"
                              th:field="*{startDate}" th:value="${eventUpdate.startDate}">
                             <span th:errors="${eventUpdate.startDate}" class="text-danger"></span>
                         </div>
                         <div class="mb-3 flex-fill">
-                            <label for="event-end-date" class="form-label">Tickets Number</label>
+                            <label for="event-end-date" class="form-label">End Date</label>
                             <input type="datetime-local" class="form-control" id="event-end-date"
                             th:field="*{endDate}" th:value="${eventUpdate.endDate}">
                             <span th:errors="${eventUpdate.endDate}" class="text-danger"></span>

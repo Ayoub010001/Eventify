@@ -190,7 +190,7 @@ footer{
 
 .event-card{
     width: 324px;
-    height: 245px;
+    min-height: 245px;
     flex-shrink: 0;
     border-radius: 8px;
     background: rgba(17, 17, 30, 0.5);
@@ -259,6 +259,7 @@ footer{
     border-radius: 8px;
     text-decoration: none;
     align-self: end;
+    flex: 0 0 auto;
 }
 .source-link:active, .source-link:hover{
     color: var(--light-color);
